@@ -1,6 +1,6 @@
 # Getting Started
 
-Java version: java zulu-jre-javafx-17.46.19
+Java version: java openjdk-17.0.2
 
 
 

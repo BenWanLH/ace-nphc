@@ -19,19 +19,9 @@ data class GetAllUsersResponse(
         val users: List<User>? = listOf()
 ): Response
 
-data class AddUserResponse(
+data class GenericResponse(
         override val status: Int,
-        override val message: String,
-): Response
-
-data class UpdateUserResponse(
-        override val status: Int,
-        override val message: String,
-): Response
-
-data class UploadUserResponse(
-        override val status: Int,
-        override val message: String,
+        override val message: String?,
 ): Response
 
 

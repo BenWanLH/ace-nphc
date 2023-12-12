@@ -42,9 +42,14 @@ data class User (
         if(!login.matches(Regex(Constant.alphaNumericRegex)))
             return INVALIDLOGIN
 
-        if(!startDate.matches(Regex(Constant.primaryDateRegex)) &&
-            !startDate.matches(Regex(Constant.secondaryDateRegex)))
+        if(!startDate.matches(Regex(Constant.primaryDateRegex)))
             return INVALIDDATE
+
+        try {
+            LocalDate.parse(startDate)
+        }catch(exception: Exception) {
+            return INVALIDDATE
+        }
 
         if(salary < 0)
             return INVALIDSALARY
@@ -53,16 +58,14 @@ data class User (
     }
 
     fun parseDate(){
-        try {
-            if(startDate.matches(Regex(Constant.secondaryDateRegex))) {
-                val currentDateTimeFormat = DateTimeFormatter.ofPattern("dd-MMM-yy")
-                val desiredDatetimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-                startDate = LocalDate.parse(startDate, currentDateTimeFormat).format(desiredDatetimeFormat)
-            }
-        }catch (exception: Exception) {
-            throw exception
+        if(startDate.matches(Regex(Constant.secondaryDateRegex))) {
+            val currentDateTimeFormat = DateTimeFormatter.ofPattern("dd-MMM-yy")
+            val desiredDatetimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+            startDate = LocalDate.parse(startDate, currentDateTimeFormat).format(desiredDatetimeFormat)
         }
+
     }
 
     companion object {
