@@ -235,4 +235,23 @@ class UserControllerTests(
                 .andExpect(content().string("{\"status\":400,\"message\":\"Not all columns are filled\"}"))
     }
 
+    @Test
+    fun `deleteUser - deletes successfully`() {
+        `when`(userRepository.findById(testUser.id)).thenReturn(Optional.of(testUser))
+
+        mockMvc.perform(delete("${Constant.apiPrefix}/users/${testUser.id}"))
+                .andExpect(status().isOk)
+
+    }
+
+    @Test
+    fun `deleteUser - No such employee`() {
+        `when`(userRepository.findById(testUser.id)).thenReturn(Optional.empty())
+
+        mockMvc.perform(delete("${Constant.apiPrefix}/users/${testUser.id}"))
+                .andExpect(status().isBadRequest)
+                .andExpect(content().string("{\"status\":400,\"message\":\"No such employee\"}"))
+
+    }
+
 }
