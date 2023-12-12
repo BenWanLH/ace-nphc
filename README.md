@@ -1,19 +1,29 @@
-# Getting Started
+# Prerequisite
 
 Java version: java openjdk-17.0.2
 
+If you are using a different version of java for your own projects, consider downloading asdf
+https://asdf-vm.com/ as it helps you to manage different runtime versions such as Java, node etc .
+
+### To Start
+
+To run simply run from the root folder `./gradlew bootRun`
 
 
+### To Test
 
-### Reference Documentation
-For further reference, please consider the following sections:
+To test simply run from the root folder `./gradlew test`
 
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.2.1-SNAPSHOT/gradle-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/3.2.1-SNAPSHOT/gradle-plugin/reference/html/#build-image)
 
-### Additional Links
-These additional references should also help you:
+### Assumptions 
 
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
+- User would stick to the format described when uploading csv file  
+- Csv always have header
+- when updating user, all previous user info needs to be provided else it will be overwritten.
+
+### Improvements
+
+- Could have included the bonus of filtering and sorting.
+- I probably should write my own exceptions handlers rather than using default springboot's BadRequestException
+
 
