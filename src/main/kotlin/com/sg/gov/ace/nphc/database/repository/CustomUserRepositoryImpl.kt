@@ -9,20 +9,33 @@ class CustomUserRepositoryImpl : CustomUserRepository {
     @PersistenceContext
     lateinit var entityManager: EntityManager
 
-    override fun findAllUsersWithFilter(minSalary: Double, maxSalary: Double, limit: Int, offset: Int) : List<User> {
+    override fun findAllUsersWithFilter(
+        minSalary: Double,
+        maxSalary: Double,
+        limit: Int,
+        offset: Int,
+        name: String?,
+        login: String?,
+    ) : List<User> {
+        var query = "FROM User u WHERE u.salary >= :minSalary AND u.salary < :maxSalary"
 
-        val query = entityManager.createQuery("FROM User u WHERE u.salary >= :minSalary " +
-            "AND u.salary < :maxSalary",
-            User::class.java)
+        if(!name.isNullOrBlank()) query += " AND lower(u.name) LIKE lower(:name)"
+
+        if(!login.isNullOrBlank()) query += " AND lower(u.login) LIKE lower(:login)"
+
+        val typedQuery = entityManager.createQuery(query, User::class.java)
             .setParameter("minSalary", minSalary)
             .setParameter("maxSalary", maxSalary)
 
-        if(limit > 0) query.setMaxResults(limit)
+        if(!name.isNullOrBlank()) typedQuery.setParameter("name", "%$name%")
 
-        if(offset > 0) query.setFirstResult(offset)
+        if(!login.isNullOrBlank()) typedQuery.setParameter("login", "%$login%")
 
-        return query.resultList
+        if(limit > 0) typedQuery.setMaxResults(limit)
 
+        if(offset > 0) typedQuery.setFirstResult(offset)
+
+        return typedQuery.resultList
     }
 
 }

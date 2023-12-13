@@ -91,10 +91,12 @@ class UserController @Autowired constructor(private val usersRepository: UsersRe
 
     @GetMapping("${Constant.apiPrefix}/users")
     fun getAllUsers(
-        @RequestParam("minSalary") minSalary: String = "0.0",
-        @RequestParam("maxSalary") maxSalary: String = "4000.00",
-        @RequestParam("offset") offset: String = "0",
-        @RequestParam("limit") limit: String = "0"
+        @RequestParam("minSalary") minSalary: String? = "0.0",
+        @RequestParam("maxSalary") maxSalary: String? = "4000.00",
+        @RequestParam("offset") offset: String? = "0",
+        @RequestParam("limit") limit: String? = "0",
+        @RequestParam("name") name: String? = "",
+        @RequestParam("login") login: String? = ""
     ): ResponseEntity<GetAllUsersResponse> {
         try {
             var minSalaryAsDouble: Double
@@ -103,15 +105,22 @@ class UserController @Autowired constructor(private val usersRepository: UsersRe
             var limitAsInt: Int
 
             try {
-                minSalaryAsDouble = minSalary.toDouble()
-                maxSalaryAsDouble = maxSalary.toDouble()
-                offsetAsInt = offset.toInt()
-                limitAsInt = limit.toInt()
+                minSalaryAsDouble = minSalary?.toDouble() ?: 0.00
+                maxSalaryAsDouble = maxSalary?.toDouble() ?: 4000.00
+                offsetAsInt = offset?.toInt() ?: 0
+                limitAsInt = limit?.toInt() ?: 0
             } catch (exception: Exception) {
                 throw BadRequestException("Bad Input")
             }
 
-            val result = usersRepository.findAllUsersWithFilter(minSalaryAsDouble, maxSalaryAsDouble, limitAsInt, offsetAsInt)
+            val result = usersRepository.findAllUsersWithFilter(
+                minSalaryAsDouble,
+                maxSalaryAsDouble,
+                limitAsInt,
+                offsetAsInt,
+                name,
+                login
+            )
 
             return ResponseEntity
                 .ok()

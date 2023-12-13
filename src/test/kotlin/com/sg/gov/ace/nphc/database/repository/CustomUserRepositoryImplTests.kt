@@ -47,4 +47,30 @@ class CustomUserRepositoryImplTests {
         verify(query).setFirstResult(1)
     }
 
+    @Test
+    fun `findAllUsersWithFilter - query sets name`() {
+        `when`(entityManager.createQuery<User>(anyString(), any())).thenReturn(query)
+        `when`(query.setParameter(anyString(), anyDouble())).thenReturn(query)
+        `when`(query.resultList).thenReturn(listOf<User>())
+
+        val queryName = "test"
+
+        customUserRepositoryImpl.findAllUsersWithFilter(4000.0, 5000.0, 0, 1, queryName)
+
+        verify(query).setParameter("name", "%$queryName%")
+    }
+
+    @Test
+    fun `findAllUsersWithFilter - query sets login`() {
+        `when`(entityManager.createQuery<User>(anyString(), any())).thenReturn(query)
+        `when`(query.setParameter(anyString(), anyDouble())).thenReturn(query)
+        `when`(query.resultList).thenReturn(listOf<User>())
+
+        val queryLogin = "test"
+
+        customUserRepositoryImpl.findAllUsersWithFilter(4000.0, 5000.0, 0, 1, null, queryLogin)
+
+        verify(query).setParameter("login", "%$queryLogin%")
+    }
+
 }
