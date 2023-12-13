@@ -19,11 +19,12 @@ To test simply run from the root folder `./gradlew test`
 
 - User would stick to the format described when uploading csv file  
 - Csv always have header
-- when updating user, all previous user info needs to be provided else it will be overwritten.
+- when updating user, user of the api is required to provide all the updated user's data even if they want to update only 1 field.
 
 ### Improvements
 
-- Could have included the bonus of filtering and sorting.
+- Could have included the bonus of sorting.
 - I probably should write my own exceptions handlers rather than using default springboot's BadRequestException
-
+- update api could probably be more flexible to allow user to only specify what fields they want to update
+- getAllUsers api should be paginated as the number of data increase
 
